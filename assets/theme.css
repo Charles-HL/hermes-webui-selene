@@ -762,7 +762,7 @@
 :root[data-skin="selene"] .tool-call-group-label { font-weight: 400; }
 @media (min-width: 641px) {
   :root[data-skin="selene"] .layout:not(.sidebar-collapsed) .sidebar { width: 341px; }
-  :root[data-skin="selene"] .composer-footer { width: 224px; max-width: 224px; }
+  :root[data-skin="selene"] .composer-footer { width: auto; max-width: none; }
   :root[data-skin="selene"] #themeComposerPlus { position: absolute; left: 8px; top: 8px; }
   :root[data-skin="selene"] .composer-box:has(.attach-tray.has-files) #themeComposerPlus { top: auto; bottom: 8px; }
 }
@@ -909,7 +909,7 @@
 :root[data-skin="selene"] .composer-footer .composer-reasoning-chevron { display: inline-flex; }
 :root[data-skin="selene"] .composer-footer.cf-burger .composer-left > #composerReasoningWrap:not([style*="display: none"]) { display: flex !important; }
 @media (min-width: 641px) {
-  :root[data-skin="selene"] .composer-footer { width: 312px; max-width: 312px; }
+  :root[data-skin="selene"] .composer-footer { width: auto; max-width: none; }
 }
 @media (max-width: 640px) {
   :root[data-skin="selene"] .theme-header-brand { display: none; }
@@ -1011,3 +1011,16 @@
 :root[data-skin="selene"] .theme-composer-menu .composer-workspace-chip { width: 100%; flex: initial; }
 
 :root[data-skin="selene"] .theme-composer-menu #composerToolsetsWrap:not([hidden]):not([style*="display: none"]) { display: block; }
+
+/* Shrink the desktop control group to its visible contents. Native left flex
+   otherwise retains blank space when reasoning is hidden or its label is short. */
+@media (min-width: 641px) {
+  :root[data-skin="selene"] .composer-footer { gap: 4px; justify-content: flex-end; }
+  :root[data-skin="selene"] .composer-footer .composer-left { gap: 4px; }
+  :root[data-skin="selene"] .composer-left > .composer-model-wrap { flex: 0 1 auto; }
+  :root[data-skin="selene"] .composer-footer #composerModelChip {
+    width: auto; max-width: 196px; justify-content: flex-start;
+  }
+  :root[data-skin="selene"] .composer-footer .composer-model-label { white-space: nowrap; }
+  :root[data-skin="selene"] .composer-footer .composer-model-chevron { flex-shrink: 0; }
+}

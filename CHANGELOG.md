@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.0.2 — 2026-10-06
+
+- Size desktop composer controls to their visible contents, eliminating unused space before Send when reasoning is hidden or short.
+- Use consistent 4 px control gaps and let model labels use their natural width up to 196 px.
+- Allow the model picker to shrink with ellipsis in narrow tablet columns; preserve the mobile control row.
+
 ## 1.0.1 — 2026-10-06
 
 - Place transcription status beneath composer controls, matching the listening status on desktop and mobile.

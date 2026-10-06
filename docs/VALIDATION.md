@@ -18,6 +18,10 @@ A local fixture used the installed native composer markup and stylesheet, with S
 
 No microphone access, audio recording or speech-to-text service was exercised in this visual regression check. The extension does not change capture or transcription logic.
 
+## Composer spacing (1.0.2)
+
+The native-composer fixture verified 4 px gaps between desktop model, visible reasoning, microphone and Send controls, with reasoning shown and hidden and with a multiline draft. Short model labels use their natural width; long labels are bounded to 196 px. A 284 px tablet composer column shrank the model label without overlapping other controls. The 320 px mobile row retained its compact reasoning icon. Installed assets were checked in a fresh browser view after deployment.
+
 ## Limits
 
 Testing used a browser viewport, not an exhaustive matrix of physical Android/iOS devices, software keyboards or installed PWA versions. Theme animation durations were compared visually and through computed styles; every native interaction and streaming state has not been measured. Hermes updates may require selector adjustments.
