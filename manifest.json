@@ -4,7 +4,7 @@
       "id": "selene",
       "name": "Selene",
       "version": "1.0.0",
-      "description": "A calm, responsive theme and presentation extension for Hermes WebUI.",
+      "description": "A ChatGPT-inspired theme for Hermes WebUI with light/dark palettes, responsive desktop/mobile chat controls and reversible sidebar presentation.",
       "scripts": [
         "assets/theme.js",
         "assets/layout.js"

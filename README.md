@@ -1,6 +1,6 @@
-# Selene for Hermes WebUI
+# Selene — a ChatGPT-inspired theme for Hermes WebUI
 
-A calm, responsive theme and presentation extension for [Hermes WebUI](https://github.com/nesquena/hermes-webui). Inspired by the spacing, typography and interaction patterns of ChatGPT's web interface, with its own name and Hermes branding.
+Selene is a **ChatGPT-inspired theme for [Hermes WebUI](https://github.com/nesquena/hermes-webui)**, bringing a familiar ChatGPT-style interface to Hermes Agent on desktop and mobile. It combines light and dark themes, responsive chat controls and a cleaner sidebar while keeping its own name and Hermes branding.
 
 ![Selene on desktop in dark mode](screenshots/desktop-dark.png)
 
@@ -10,6 +10,10 @@ A calm, responsive theme and presentation extension for [Hermes WebUI](https://g
 </p>
 
 ![Selene on desktop in light mode](screenshots/desktop-light.png)
+
+## ChatGPT-style appearance, native Hermes features
+
+For users looking for a Hermes WebUI theme that looks like ChatGPT, Selene adapts the spacing, typography, composer, menus and motion. It preserves Hermes' native model, reasoning, profile and tool controls. Install it as a custom theme extension without forking Hermes or building a custom image.
 
 ## What changes
 
