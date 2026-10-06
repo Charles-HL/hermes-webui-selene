@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.1.1 — 2026-10-07
+
+- Apply the 44 px mobile minimum to the pinned profile button and add-menu rows as well as the composer controls.
+
 ## 1.1.0 — 2026-10-07
 
 - Respect composer controls hidden in native settings.
