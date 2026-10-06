@@ -1,6 +1,6 @@
 # Review screenshots
 
-These browser captures use the installed Hermes WebUI template and stylesheet in a local fixture with 24 synthetic conversations. Context/quota, attachments, conversation actions and dictation states are seeded or simulated; they do not contain private data and are not proof of STT or backend service operation.
+These browser captures use the installed Hermes WebUI template and stylesheet in a local fixture with 24 synthetic sidebar conversations. Populated chat views reuse the native user/assistant message markup from the public website-launch demo, including a numbered checklist and JavaScript block. Context/quota, attachments, conversation actions and dictation states are seeded or simulated; they do not contain private data and are not proof of STT or backend service operation.
 
 - [Collapsed desktop, dark](desktop-collapsed-dark.png) and [light](desktop-collapsed-light.png)
 - [Pinned desktop profile after scrolling](desktop-profile-pinned.png) and [mobile](mobile-profile-pinned.png)

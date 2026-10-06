@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.1.2 — 2026-10-07
+
+- Replace the main desktop/mobile screenshots with a real rendered demo conversation, including user/assistant messages, a checklist and code.
+- Add Mobile Light and refresh populated review captures with native message markup. Runtime JavaScript and CSS are unchanged.
+
 ## 1.1.1 — 2026-10-07
 
 - Apply the 44 px mobile minimum to the pinned profile button and add-menu rows as well as the composer controls.

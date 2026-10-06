@@ -2,7 +2,7 @@
   "id": "selene",
   "name": "Selene",
   "description": "Minimal light and dark theme with a centered composer, a files and tools menu, and a unified sidebar with a pinned profile switcher.",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "author": "Charles-HL",
   "assets": {
     "scripts": [
@@ -26,7 +26,8 @@
     "screenshots/desktop-dark.png",
     "screenshots/mobile-dark.png",
     "screenshots/desktop-light.png",
-    "screenshots/sidebar-dark.png"
+    "screenshots/sidebar-dark.png",
+    "screenshots/mobile-light.png"
   ],
   "permissions": {
     "webui_api": {

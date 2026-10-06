@@ -26,7 +26,7 @@ The native-composer fixture verified 4 px gaps between desktop model, visible re
 
 Testing used a browser viewport, not an exhaustive matrix of physical Android/iOS devices, software keyboards or installed PWA versions. Theme animation durations were compared visually and through computed styles; every native interaction and streaming state has not been measured. Hermes updates may require selector adjustments.
 
-Screenshots are captured from a neutral welcome screen or cropped navigation, without conversation history, credentials or installation-specific endpoints. They are UI evidence, not generated mockups.
+Main screenshots are captured from an intentionally created public demo conversation in the installed WebUI, with private sidebar history hidden. Navigation crops and synthetic review fixtures contain no private history, credentials or installation-specific endpoints. They are UI evidence, not generated mockups.
 
 ## Distribution checks
 
@@ -48,3 +48,7 @@ A populated local fixture used the installed `exp-v0.52.404` native template and
 Current upstream core master was independently tested by the maintainer on the previous PR head. This revision still requires their gates to be rerun; local fixture checks do not claim that those remote checks have passed.
 
 Installed follow-up: the real sidebar scroll area contained 10,024 px of content. Scrolling to 9,412.5 px left the profile footer at y=663 in a 720 px viewport. At 390 by 844, the footer stayed at y=783, the drawer measured 360 px and microphone/add targets measured 44 px. The native profile dropdown stayed inside the viewport; no profile was changed. No browser errors were recorded.
+
+## Conversation captures (1.1.2)
+
+The public demo was sent through the actual installed Hermes chat UI and renamed through the native header interaction. Desktop Light/Dark and 390 px mobile Light/Dark show its native user/assistant rows, numbered checklist, JavaScript block and message actions. No application tools were needed for the demo response. Review fixtures reuse this benign native message markup while sidebar data, context/quota and dictation remain seeded or simulated. Welcome captures are intentionally empty. The original Dark mode and open desktop sidebar preferences were restored after capture. No runtime assets changed in this release.
