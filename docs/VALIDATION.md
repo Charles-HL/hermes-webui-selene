@@ -8,7 +8,7 @@ Tested against Hermes WebUI `exp-v0.52.404` through its native extension loader.
 - Native model search, profile/model/effort menus and model-list scrolling. No profile, model or effort changes were made for these visual checks.
 - Rounded menu shells and internal selected/hover states, workspace actions and slash-command suggestions.
 - Stable Explore label, indented submenus, collapse on navigation/sidebar closure, search toggle and outside-click mobile dismissal.
-- Sidebar navigation/list scrolling with a fixed header.
+- Native conversation-list scrolling with a fixed profile footer.
 - Switching to Default restores original element parents and removes temporary containers; reactivation creates no duplicate controls.
 - Source inspection for saved-prompt, skill-suggestion and settings-search menu selectors. Populated content in those menus was not exhaustively exercised.
 
@@ -43,7 +43,7 @@ A populated local fixture used the installed `exp-v0.52.404` native template and
 - Context usage is accessible in the mobile add menu. Quota values and project chips remain visible.
 - Desktop collapsed navigation rail remains visible; header New conversation is hidden while the sidebar is open. Active-tab collapse is no longer intercepted.
 - A Default switch restored every original ID-bearing element to its original parent and child index (zero differences). Reactivation produced no duplicate controls.
-- Screenshots in `screenshots/review/` show synthetic data and simulated listening/transcribing states. They contain no private conversation history. They complement the original installed welcome screenshots.
+- Historical screenshots in the standalone repository `review-evidence/round-1/` show synthetic data and simulated listening/transcribing states. They contain no private conversation history. They complement the original installed welcome screenshots.
 
 Current upstream core master was independently tested by the maintainer on the previous PR head. This revision still requires their gates to be rerun; local fixture checks do not claim that those remote checks have passed.
 
@@ -52,3 +52,13 @@ Installed follow-up: the real sidebar scroll area contained 10,024 px of content
 ## Conversation captures (1.1.2)
 
 The public demo was sent through the actual installed Hermes chat UI and renamed through the native header interaction. Desktop Light/Dark and 390 px mobile Light/Dark show its native user/assistant rows, numbered checklist, JavaScript block and message actions. No application tools were needed for the demo response. Review fixtures reuse this benign native message markup while sidebar data, context/quota and dictation remain seeded or simulated. Welcome captures are intentionally empty. The original Dark mode and open desktop sidebar preferences were restored after capture. No runtime assets changed in this release.
+
+## Second review regressions (1.1.3)
+
+The native-template fixture verified `sessionList` as an overflow-auto bounded scroller, with the profile pinned. A 200-row fixture using core `_sessionVirtualWindow` (38 px measured fixture rows) reached window 173–200 and the final conversation; the full backend/core renderer was not exercised by this fixture. Native row markup keeps 40 px reserved on mobile and hover/focus, with timestamps clear of the action trigger.
+
+At 320/390 px, the header's New conversation receives the center-point hit with a long title. Absent quota data computes to display none; present data shows a fixed caption and value. Mobile context text stays 12 px clear of the intrinsic-width Compress button (85 px in the English fixture). Mouse opens retain focus on +; Enter opens focus Attach and Escape returns focus to +. Five Default/Selene round trips restored original parents/indexes with zero differences. No browser errors. At 1024 and 1200 px with both panels open, the draft occupies a separate row above the control row without composer overflow.
+
+[Second-review screenshots](https://github.com/Charles-HL/hermes-webui-selene/tree/main/review-evidence) are linked from the PR, excluded from the release ZIP and absent from the gallery package. Main installed conversation previews remain in the package.
+
+Installed follow-up on 1.1.3: `sessionList` computed to overflow auto with a bounded 393 px height, and the profile parent remained the sidebar. Core's absent quota data stayed hidden inside the add menu, with the translated fixed caption available when needed. Pointer opening left focus on + and no console errors were observed. Runtime hashes matched between the canonical source and the installation; the WebUI remained healthy. Package validation/safety (22 entries) and the 15 behavior suites passed on this revision.

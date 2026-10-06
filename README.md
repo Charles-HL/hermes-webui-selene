@@ -23,7 +23,7 @@ The main screenshots show a real Hermes-rendered demo conversation about a ficti
 - A centered welcome composer, conversation title in the header and a compact mobile composer.
 - One row for add, model, reasoning, microphone and send. On mobile, reasoning uses its native brain icon; long model names use ellipsis.
 - A unified sidebar with indented secondary navigation under **Explore Hermes**, a search toggle and a native profile switcher.
-- Sidebar navigation and lists scroll together between the fixed header and pinned profile footer.
+- The conversation list keeps its native scroller for large histories, between sidebar navigation and the pinned profile footer.
 - Menu and drawer transitions that respect reduced-motion preferences.
 
 Selene is **not a Hermes fork**. It uses Hermes WebUI's extension loader and `window.registerHermesSkin()`. CSS handles styling; a small JavaScript presentation layer moves existing controls, retains their IDs and handlers, and restores their original positions when another skin is selected. It changes some layout and navigation presentation, so it is more than an accent-only CSS skin.

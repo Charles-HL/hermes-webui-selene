@@ -297,7 +297,7 @@
   font-size: 14px;
   line-height: 20px;
   min-height: 36px;
-  padding: 8px;
+  padding-top: 8px; padding-bottom: 8px; padding-left: 8px;
 }
 :root[data-skin="selene"] .session-group-header {
   font-size: 14px;
@@ -571,7 +571,7 @@
   }
   :root[data-skin="selene"] .session-item {
     min-height: 36px;
-    padding: 8px 6px 8px 12px;
+    padding-top: 8px; padding-bottom: 8px; padding-left: 12px;
   }
   :root[data-skin="selene"] .composer-wrap {
     padding: 8px 20px calc(24px + var(--keyboard-bottom-inset, 0px)) !important;
@@ -816,8 +816,6 @@
 :root[data-skin="selene"] #btnHamburger svg { visibility: hidden; }
 :root[data-skin="selene"] #btnHamburger::after { content: ''; width: 20px; height: 20px; position: absolute; background: currentColor; mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cg fill='none' stroke='black' stroke-width='1.6'%3E%3Crect x='3' y='5' width='18' height='14' rx='3'/%3E%3Cpath d='M9 5v14'/%3E%3C/g%3E%3C/svg%3E") center/contain no-repeat; }
 :root[data-skin="selene"] #btnTitlebarNewChat { position: absolute; right: 8px; top: 8px; }
-:root[data-skin="selene"] #btnTitlebarNewChat svg { visibility: hidden; }
-:root[data-skin="selene"] #btnTitlebarNewChat::after { content: ''; width: 20px; height: 20px; position: absolute; background: currentColor; mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cg fill='none' stroke='black' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M14 4H6a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8M12 12l8-8m-3 0h3v3'/%3E%3C/g%3E%3C/svg%3E") center/contain no-repeat; }
 :root[data-skin="selene"] :is(.theme-header-search,#btnHamburger,#btnTitlebarNewChat):hover { background: var(--hover-bg); }
 :root[data-skin="selene"][data-theme-sidebar="collapsed"] .theme-header-search { display: none; }
 :root[data-skin="selene"][data-theme-sidebar="collapsed"] #btnHamburger { left: 8px; }
@@ -891,7 +889,7 @@
   font: inherit; font-size: 13px; font-weight: 400;
 }
 :root[data-skin="selene"] .composer-footer .composer-reasoning-label { display: inline-flex !important; overflow: hidden; text-overflow: ellipsis; font: inherit; }
-:root[data-skin="selene"] .composer-footer .composer-reasoning-icon { display: none; }
+:root[data-skin="selene"] .composer-footer .composer-reasoning-icon { display: inline-flex; }
 :root[data-skin="selene"] .composer-footer .composer-reasoning-chevron { display: inline-flex; }
 :root[data-skin="selene"] .composer-footer.cf-burger .composer-left > #composerReasoningWrap:not(.composer-control-hidden):not([style*="display: none"]) { display: flex !important; }
 @media (min-width: 641px) {
@@ -925,7 +923,7 @@
 :root[data-skin="selene"][data-theme-sidebar="collapsed"] .theme-header-conversation { left: 160px; }
 @media (max-width: 640px) {
   :root[data-skin="selene"] .theme-header-conversation,
-  :root[data-skin="selene"][data-theme-sidebar="collapsed"] .theme-header-conversation { left: 52px; right: 52px; }
+  :root[data-skin="selene"][data-theme-sidebar="collapsed"] .theme-header-conversation { left: 52px; right: 100px; }
 }
 @media (min-width: 641px) {
   :root[data-skin="selene"] #composerReasoningDropdown { left: auto !important; right: 80px; }
@@ -1054,4 +1052,30 @@
   :root[data-skin="selene"] #btnTitlebarNewChat { right: 52px; }
 }
 
-:root[data-skin="selene"] .theme-composer-menu #providerQuotaChip:not(.composer-control-hidden):not([style*="display: none"]) { display: grid !important; }
+:root[data-skin="selene"] .theme-composer-menu #providerQuotaChip:not([hidden]):not(.composer-control-hidden):not([style*="display: none"]) { display: grid !important; }
+
+/* Core virtualizes conversations using sessionList's own scroll position. */
+:root[data-skin="selene"] .theme-sidebar-scroll > #panelChat {
+  flex: 1 1 0; min-height: 0; overflow: hidden;
+}
+:root[data-skin="selene"] .theme-sidebar-scroll #sessionList {
+  flex: 1 1 0; min-height: 0; overflow-y: auto;
+}
+/* This nested action is not a full-width menu row. */
+:root[data-skin="selene"] .theme-composer-menu #composerMobileCtxCompressBtn {
+  display: inline-flex; width: auto; max-width: 128px; flex: 0 0 auto;
+}
+:root[data-skin="selene"] .composer-footer .composer-reasoning-icon svg { width: 20px; height: 20px; }
+:root[data-skin="selene"] .theme-composer-menu #providerQuotaChip > .theme-control-label { grid-column: 2; grid-row: 1; }
+:root[data-skin="selene"] .theme-composer-menu #providerQuotaChip > .provider-quota-chip-label { grid-column: 3; grid-row: 1; font-size: 11px; max-width: 120px; overflow: hidden; text-overflow: ellipsis; }
+/* Two open panels can make the chat narrow even on a desktop viewport. */
+:root[data-skin="selene"] .composer-wrap { container-type: inline-size; }
+@media (min-width: 641px) {
+  @container (max-width: 560px) {
+    :root[data-skin="selene"] .composer-box:not([data-theme-expanded="true"]) { display: flex; flex-direction: column; padding: 0; }
+    :root[data-skin="selene"] .composer-box:not([data-theme-expanded="true"]) #msg { width: 100%; min-height: 43px; padding: 11px 14px 6px 15px; }
+    :root[data-skin="selene"] .composer-box:not([data-theme-expanded="true"]) .composer-footer { width: 100%; max-width: none; min-height: 44px; padding: 0 8px 8px; }
+    :root[data-skin="selene"] #themeComposerPlus { position: static; }
+    :root[data-skin="selene"] .composer-model-wrap:not(.composer-control-hidden) { margin-left: auto; }
+  }
+}

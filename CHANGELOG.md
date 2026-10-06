@@ -1,5 +1,14 @@
 # Changelog
 
+## 1.1.3 — 2026-10-07
+
+- Restore native conversation-list scrolling for virtualized histories while keeping the profile pinned.
+- Reserve both mobile header actions and preserve native row action padding.
+- Hide absent quota data, align its caption/value, and keep context compression at intrinsic width.
+- Restore the native header plus and desktop brain icon; focus add-menu items only for keyboard opens.
+- Adapt the composer to a narrow desktop chat column with both panels open.
+- Move review evidence out of the installable package.
+
 ## 1.1.2 — 2026-10-07
 
 - Replace the main desktop/mobile screenshots with a real rendered demo conversation, including user/assistant messages, a checklist and code.

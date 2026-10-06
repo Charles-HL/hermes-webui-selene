@@ -232,7 +232,7 @@
     for (const selector of extras) {
       const node = left.querySelector(selector);
       move(node, menu);
-      if (node?.tagName === "BUTTON") label(node, node.dataset.tooltip || node.getAttribute("aria-label") || node.title || "Options");
+      if (node?.tagName === "BUTTON") label(node, node.id === "providerQuotaChip" ? text("Provider quota", "Quota du fournisseur") : node.dataset.tooltip || node.getAttribute("aria-label") || node.title || "Options");
     }
     // Core owns and updates this context row, including compression actions.
     // Moving the existing row gives mobile users access through the + menu.
@@ -311,11 +311,11 @@
       plus.setAttribute("aria-expanded", "false");
       if (restoreFocus) plus.focus();
     };
-    plus.addEventListener("click", () => {
+    plus.addEventListener("click", (event) => {
       const opening = menu.hidden;
       menu.hidden = !opening;
       plus.setAttribute("aria-expanded", String(opening));
-      if (opening) menu.querySelector("button:not([disabled])")?.focus();
+      if (opening && event.detail === 0) menu.querySelector("button:not([disabled])")?.focus();
     });
     const outside = (event) => {
       if (!box.contains(event.target) && !event.target.closest(".profile-dropdown,.ws-dropdown,.model-dropdown,.composer-toolsets-dropdown,.composer-reasoning-dropdown,.saved-prompts-popup")) close();
@@ -327,7 +327,8 @@
     document.addEventListener("keydown", escape);
     undo.push(() => { document.removeEventListener("pointerdown", outside); document.removeEventListener("keydown", escape); });
     if (sidebar) {
-      // One scroll surface below the fixed header; native views stay intact.
+      // Navigation can scroll, while the native conversation list keeps its
+      // own scroller for core virtualization. The profile remains pinned.
       const scroll = document.createElement("div");
       scroll.className = "theme-sidebar-scroll";
       scroll.tabIndex = 0;
