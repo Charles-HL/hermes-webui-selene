@@ -1,0 +1,17 @@
+{
+  "extensions": [
+    {
+      "id": "selene",
+      "name": "Selene",
+      "version": "1.0.0",
+      "description": "A calm, responsive theme and presentation extension for Hermes WebUI.",
+      "scripts": [
+        "assets/theme.js",
+        "assets/layout.js"
+      ],
+      "stylesheets": [
+        "assets/theme.css"
+      ]
+    }
+  ]
+}

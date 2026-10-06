@@ -1,0 +1,987 @@
+/* SPDX-License-Identifier: MIT
+ * Original styling inspired by ChatGPT's web appearance, October 2026.
+ * Opt-in styling and measured geometry. Hermes actions remain native.
+ */
+
+/* Extra root specificity keeps core's late-injected registration token from
+ * overriding the dark palette. Font-size preferences remain owned by core. */
+:root:root[data-skin="selene"] {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  color-scheme: light;
+  --bg: #ffffff;
+  --sidebar: #f9f9f9;
+  --surface: #f4f4f4;
+  --surface2: #eeeeee;
+  --main-bg: #ffffff;
+  --topbar-bg: #ffffff;
+  --text: #0d0d0d;
+  --text2: #353535;
+  --strong: #0d0d0d;
+  --muted: #666666;
+  --em: #555555;
+  --border: #e5e5e5;
+  --border2: #d5d5d5;
+  --border-subtle: rgba(0, 0, 0, .06);
+  --border-muted: rgba(0, 0, 0, .10);
+  --input-bg: #f4f4f4;
+  --hover-bg: #eaeaea;
+  --surface-subtle: rgba(0, 0, 0, .025);
+  --surface-subtle-hover: rgba(0, 0, 0, .055);
+  --accent: #0d0d0d;
+  --accent-hover: #303030;
+  --accent-text: #0d0d0d;
+  --accent-contrast: #ffffff;
+  --accent-rgb: 13, 13, 13;
+  --accent-bg: rgba(0, 0, 0, .045);
+  --accent-bg-strong: rgba(0, 0, 0, .085);
+  --focus-ring: rgba(0, 0, 0, .20);
+  --focus-glow: transparent;
+  --blue: #0969da;
+  --gold: #666666;
+  --link: #0969da;
+  --code-bg: #f7f7f8;
+  --code-text: #353535;
+  --code-inline-bg: rgba(0, 0, 0, .055);
+  --pre-text: #242424;
+  --user-bubble-bg: #f4f4f4;
+  --user-bubble-border: transparent;
+  --user-bubble-text: #0d0d0d;
+  --user-bubble-placeholder: #666666;
+  --user-selection-bg: #cce2ff;
+  --user-selection-text: #0d0d0d;
+  --panel-head-primary-fg: #ffffff;
+  --logo-glow: transparent;
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-card: 16px;
+  --radius-lg: 18px;
+  --font-ui: -apple-system-body, ui-sans-serif, -apple-system, system-ui, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol";
+  --font-conversation: var(--font-ui);
+  --theme-ease: cubic-bezier(.23, 1, .32, 1);
+  --theme-composer-shadow: 0 1px 2px rgba(0, 0, 0, .04), inset 0 0 0 1px rgba(0, 0, 0, .06);
+  --theme-menu-shadow: 0 8px 28px rgba(0, 0, 0, .10), 0 2px 6px rgba(0, 0, 0, .04);
+}
+
+:root:root.dark[data-skin="selene"] {
+  color-scheme: dark;
+  --bg: #000000;
+  --sidebar: #000000;
+  --surface: #1b1b1b;
+  --surface2: #262626;
+  --main-bg: #000000;
+  --topbar-bg: #000000;
+  --text: #ededed;
+  --text2: #d4d4d4;
+  --strong: #ffffff;
+  --muted: #a6a6a6;
+  --em: #c4c4c4;
+  --border: #262626;
+  --border2: #3a3a3a;
+  --border-subtle: rgba(255, 255, 255, .07);
+  --border-muted: rgba(255, 255, 255, .12);
+  --input-bg: #1b1b1b;
+  --hover-bg: #262626;
+  --surface-subtle: rgba(255, 255, 255, .035);
+  --surface-subtle-hover: rgba(255, 255, 255, .07);
+  --accent: #ededed;
+  --accent-hover: #d4d4d4;
+  --accent-text: #ededed;
+  --accent-contrast: #0d0d0d;
+  --accent-rgb: 237, 237, 237;
+  --accent-bg: rgba(255, 255, 255, .06);
+  --accent-bg-strong: rgba(255, 255, 255, .10);
+  --focus-ring: rgba(255, 255, 255, .24);
+  --blue: #8ab4f8;
+  --gold: #a6a6a6;
+  --link: #8ab4f8;
+  --code-bg: #171717;
+  --code-text: #e1e1e1;
+  --code-inline-bg: rgba(255, 255, 255, .09);
+  --pre-text: #ededed;
+  --user-bubble-bg: #2c6732;
+  --user-bubble-text: #ededed;
+  --user-bubble-placeholder: #a6a6a6;
+  --user-selection-bg: #345781;
+  --user-selection-text: #ffffff;
+  --panel-head-primary-fg: #0d0d0d;
+  --theme-composer-shadow: inset 0 0 0 1px rgba(255, 255, 255, .20);
+  --theme-menu-shadow: 0 8px 28px rgba(0, 0, 0, .30), 0 0 0 1px rgba(255, 255, 255, .06);
+}
+
+:root[data-skin="selene"] :is(.main, .empty-state, .composer-wrap) {
+  background: var(--bg);
+}
+:root[data-skin="selene"] :is(.rail, .sidebar) {
+  background: var(--sidebar);
+}
+:root[data-skin="selene"] :is(.topbar, .app-titlebar) {
+  background: var(--topbar-bg);
+  box-shadow: none;
+}
+:root[data-skin="selene"] .composer-wrap {
+  border-top-color: transparent;
+  border-top-width: 0;
+  box-shadow: none;
+}
+:root[data-skin="selene"] .composer-box {
+  background: var(--surface);
+  border-color: transparent;
+  border-radius: 26px;
+  box-shadow: var(--theme-composer-shadow);
+  transition: border-color 180ms ease, box-shadow 180ms ease;
+}
+:root[data-skin="selene"] .composer-box:focus-within {
+  border-color: transparent;
+  box-shadow: var(--theme-composer-shadow);
+}
+:root[data-skin="selene"] #msg {
+  background: transparent;
+  color: var(--text);
+  caret-color: var(--text);
+}
+:root[data-skin="selene"] #msg::placeholder { color: var(--muted); }
+:root[data-skin="selene"] :is(.composer-workspace-group, .composer-workspace-chip, .composer-profile-chip, .composer-model-chip) {
+  background: transparent;
+  border-color: var(--border-subtle);
+  border-radius: 999px;
+  color: var(--muted);
+}
+:root[data-skin="selene"] :is(.session-item, .settings-menu-item, .nav-tab, .rail-btn) {
+  border-radius: 10px;
+}
+:root[data-skin="selene"] :is(.session-item.active, .settings-menu-item.active, .nav-tab.active, .rail-btn.active) {
+  background: var(--hover-bg);
+  color: var(--text);
+  border-color: transparent;
+  box-shadow: none;
+}
+:root[data-skin="selene"] .rail-btn.active::before { background: transparent; }
+:root[data-skin="selene"] :is(.session-item, .rail-btn, .nav-tab, .suggestion, .btn, .icon-btn, .composer-icon-btn) {
+  transition: background-color 150ms ease, color 150ms ease, border-color 150ms ease, opacity 150ms ease, transform 150ms var(--theme-ease);
+}
+:root[data-skin="selene"] :is(.session-item:hover, .rail-btn:hover, .nav-tab:hover, .suggestion:hover) {
+  background: var(--hover-bg);
+  color: var(--text);
+}
+:root[data-skin="selene"] .suggestion {
+  background: transparent;
+  border-color: var(--border);
+  border-radius: 16px;
+}
+:root[data-skin="selene"] .suggestion:hover { transform: none; }
+:root[data-skin="selene"] .empty-state h2 {
+  font-weight: 500;
+  letter-spacing: -.025em;
+}
+:root[data-skin="selene"] .empty-logo :is(.hm-g0, .hm-g1) { stop-color: var(--text); }
+:root[data-skin="selene"] .empty-logo::before { background: transparent; }
+:root[data-skin="selene"] :is(.msg-body, .session-item) { letter-spacing: 0; }
+:root[data-skin="selene"] .msg-row[data-role="user"] .msg-body {
+  background: var(--user-bubble-bg);
+  border-color: transparent;
+  border-radius: 22px;
+  color: var(--user-bubble-text);
+}
+:root[data-skin="selene"] .msg-row[data-role="assistant"] .msg-body {
+  background: transparent;
+  color: var(--text);
+}
+:root[data-skin="selene"] .msg-body a { color: var(--link); }
+:root[data-skin="selene"] .msg-body pre { border-color: var(--border); border-radius: 16px; }
+:root[data-skin="selene"] :is(.settings-card, .tool-card, .thinking-card) {
+  border-color: var(--border);
+  border-radius: 16px;
+  box-shadow: none;
+}
+:root[data-skin="selene"] :is(.saved-prompts-popup, .composer-mobile-config-panel, .modal, .context-menu) {
+  background: var(--surface);
+  border-color: var(--border);
+  border-radius: 16px;
+  box-shadow: var(--theme-menu-shadow);
+}
+:root[data-skin="selene"] :is(.btn.primary, .panel-head-btn.primary, .provider-card-btn-primary, #btnSend) {
+  background: var(--accent);
+  color: var(--accent-contrast);
+  border-color: transparent;
+  border-radius: 999px;
+}
+:root[data-skin="selene"] :is(.btn.primary, .panel-head-btn.primary, .provider-card-btn-primary, #btnSend):hover:not(:disabled) {
+  background: var(--accent-hover);
+  color: var(--accent-contrast);
+}
+:root[data-skin="selene"] #btnSend:disabled {
+  background: var(--hover-bg);
+  color: var(--muted);
+  opacity: .65;
+}
+:root[data-skin="selene"] :is(button, input, textarea, select, [tabindex]):focus-visible {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: 3px;
+}
+:root[data-skin="selene"] ::selection {
+  background: var(--user-selection-bg);
+  color: var(--user-selection-text);
+}
+:root[data-skin="selene"] * { scrollbar-color: var(--border2) transparent; }
+
+/* Short, non-displacing motion. No animation of message content while streaming.
+ * Preserve the native sidebar/keyboard behavior and reduced-motion preference. */
+@media (prefers-reduced-motion: no-preference) {
+  :root[data-skin="selene"] :is(.saved-prompts-popup, .composer-mobile-config-panel.open) {
+    animation: selene-menu-in 180ms var(--theme-ease) both;
+  }
+  :root[data-skin="selene"] .empty-logo svg {
+    animation: selene-welcome-in 320ms var(--theme-ease) both;
+  }
+  :root[data-skin="selene"] :is(.icon-btn, .composer-icon-btn, #btnSend):active:not(:disabled) {
+    transform: scale(.95);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  :root[data-skin="selene"] *,
+  :root[data-skin="selene"] *::before,
+  :root[data-skin="selene"] *::after {
+    animation: none !important;
+    transition-duration: 0s !important;
+    scroll-behavior: auto !important;
+  }
+}
+@keyframes selene-menu-in {
+  from { opacity: 0; transform: translateY(4px) scale(.985); }
+  to { opacity: 1; transform: none; }
+}
+@keyframes selene-welcome-in {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: none; }
+}
+
+/* Measurements from the authenticated reference at 1440 × 900:
+ * content 768px, heading 24/28.8px, composer 52px, controls 36px.
+ * Geometry is scoped to the native chat. Other Hermes screens keep their
+ * navigation and data; no handler or application component is replaced. */
+:root:root[data-skin="selene"] { --msg-max: 768px; }
+:root[data-skin="selene"] .app-titlebar {
+  height: 52px;
+  border-bottom-color: transparent;
+  border-bottom-width: 0;
+}
+:root[data-skin="selene"] .sidebar { border-right-color: var(--border); }
+:root[data-skin="selene"] .session-item {
+  font-size: 14px;
+  line-height: 20px;
+  min-height: 36px;
+  padding: 8px;
+}
+:root[data-skin="selene"] .session-group-header {
+  font-size: 14px;
+  font-weight: 400;
+  letter-spacing: 0;
+  text-transform: none;
+}
+:root[data-skin="selene"] .messages-inner {
+  max-width: 816px;
+}
+:root[data-skin="selene"] .msg-body {
+  font-size: 16px;
+  line-height: 26px;
+}
+:root[data-skin="selene"] .msg-row[data-role="user"] .msg-body {
+  padding: 10px 16px;
+  border-radius: 22px;
+}
+:root[data-skin="selene"] .composer-box { max-width: 768px; }
+:root[data-skin="selene"] #msg {
+  font-size: 16px;
+  line-height: 26px;
+}
+:root[data-skin="selene"] .empty-state {
+  padding: 24px;
+  gap: 0;
+}
+:root[data-skin="selene"] .empty-state :is(.empty-logo, p) { display: none; }
+:root[data-skin="selene"] .empty-state h2 {
+  font-size: 24px;
+  line-height: 28.8px;
+  font-weight: 400;
+  letter-spacing: 0;
+  color: var(--text);
+  margin: 0;
+}
+:root[data-skin="selene"] .suggestion-grid {
+  max-width: 768px;
+  gap: 0;
+  margin: 0;
+}
+:root[data-skin="selene"] .suggestion {
+  min-height: 52px;
+  padding: 0 16px;
+  font-size: 16px;
+  line-height: 26px;
+  border: 0;
+  border-radius: 16px;
+  color: var(--muted);
+}
+:root[data-skin="selene"] :is(.model-dropdown, .profile-dropdown,
+  .ws-dropdown, .composer-reasoning-dropdown, .composer-toolsets-dropdown,
+  .saved-prompts-popup, .composer-mobile-config-panel, .session-context-menu, .cmd-dropdown,
+  .skill-picker-dropdown, .settings-search-results) {
+  border-radius: 20px;
+  padding: 8px;
+  background: var(--surface2);
+  font-size: 14px;
+  box-shadow: var(--theme-menu-shadow);
+}
+:root.dark[data-skin="selene"] :is(.model-dropdown, .profile-dropdown,
+  .ws-dropdown, .composer-reasoning-dropdown, .composer-toolsets-dropdown,
+  .saved-prompts-popup, .composer-mobile-config-panel, .session-context-menu, .cmd-dropdown,
+  .skill-picker-dropdown, .settings-search-results) {
+  background: #303030;
+}
+:root[data-skin="selene"] :is(.model-opt, .profile-opt, .reasoning-option,
+  .ws-dropdown .ws-opt, .cmd-item, .saved-prompt-row) {
+  min-height: 36px;
+  padding: 8px 12px;
+  border-radius: 10px;
+  font-size: 14px;
+  line-height: 20px;
+}
+/* Native picker rows use -opt, including their selected and keyboard states. */
+:root[data-skin="selene"] .model-dropdown :is(.model-opt-more, .model-group.collapsible) {
+  border-radius: 10px;
+}
+:root[data-skin="selene"] .model-scope-note {
+  border-radius: 10px;
+  border-bottom: 0;
+  box-shadow: none;
+  background: var(--surface2);
+}
+:root.dark[data-skin="selene"] .model-scope-note { background: #303030; }
+:root[data-skin="selene"] :is(.model-search-input, .model-custom-input,
+  .model-provider-hint, .toolsets-dropdown-state) { border-radius: 10px; }
+:root[data-skin="selene"] :is(.skill-opt, .settings-search-result) { border-radius: 10px; }
+:root[data-skin="selene"] .has-tooltip::after {
+  font-size: 14px;
+  font-weight: 400;
+  letter-spacing: 0;
+  padding: 6px 12px;
+  border: 0;
+  border-radius: 999px;
+  background: var(--surface2);
+}
+:root[data-skin="selene"] .side-menu-item {
+  min-height: 36px;
+  padding: 8px 10px;
+  font-size: 14px;
+  line-height: 20px;
+  font-weight: 400;
+  border-radius: 10px;
+}
+:root[data-skin="selene"] .side-menu-item.active {
+  background: var(--hover-bg);
+  color: var(--text);
+}
+:root[data-skin="selene"] .settings-main {
+  max-width: 816px;
+}
+:root[data-skin="selene"] .settings-section-title {
+  font-size: 24px;
+  line-height: 28.8px;
+  font-weight: 400;
+  letter-spacing: 0;
+}
+:root[data-skin="selene"] .settings-section-head {
+  border-bottom: 0;
+  margin-bottom: 24px;
+}
+:root[data-skin="selene"] #mainSettings .settings-field {
+  padding: 12px 16px;
+  border-radius: 16px;
+  background: var(--bg);
+}
+:root[data-skin="selene"] #mainSettings .settings-field > label {
+  font-size: 14px;
+  line-height: 20px;
+  color: var(--text);
+  letter-spacing: 0;
+}
+@media (min-width: 641px) {
+  /* Rail + sidebar and separator match the reference's 341px area. */
+  :root[data-skin="selene"] .layout:not(.sidebar-collapsed) .sidebar {
+    width: 293px;
+  }
+  :root[data-skin="selene"][data-workspace-panel="closed"] .rightpanel {
+    border-left-width: 0;
+  }
+  :root[data-skin="selene"] .composer-box {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: center;
+    min-height: 52px;
+    border-width: 0;
+    padding: 8px;
+  }
+  :root[data-skin="selene"] #msg {
+    grid-column: 1;
+    grid-row: 1;
+    padding: 5px 8px 5px 44px;
+    min-height: 36px;
+  }
+  :root[data-skin="selene"] .composer-footer {
+    grid-column: 2;
+    grid-row: 1;
+    position: static;
+    padding: 0;
+    gap: 4px;
+    max-width: 400px;
+    width: 400px;
+  }
+  :root[data-skin="selene"] .composer-left { gap: 4px; }
+  :root[data-skin="selene"] .composer-footer :is(.icon-btn,
+    .composer-profile-chip, .composer-model-chip, .composer-reasoning-chip,
+    .composer-workspace-files-btn, .composer-mobile-config-btn, #btnSend) {
+    box-sizing: border-box;
+    width: 36px;
+    min-width: 36px;
+    max-width: 36px;
+    height: 36px;
+    min-height: 36px;
+    padding: 0;
+    border: 0;
+    border-radius: 999px;
+  }
+  :root[data-skin="selene"] .composer-footer :is(.composer-profile-label,
+    .composer-workspace-label, .composer-model-label, .composer-profile-chevron,
+    .composer-divider) { display: none; }
+  :root[data-skin="selene"] .composer-footer .composer-model-chip {
+    width: 36px;
+    max-width: 36px;
+    padding: 0;
+    font-size: 16px;
+    line-height: 26px;
+  }
+  :root[data-skin="selene"] .composer-model-icon { display: inline-flex; }
+  :root[data-skin="selene"] .composer-footer :is(.composer-model-label, .composer-model-chevron) { display: none; }
+  :root[data-skin="selene"] .composer-footer .composer-reasoning-chip {
+    width: auto;
+    max-width: 100px;
+    min-width: 64px;
+    padding: 0 8px;
+  }
+  :root[data-skin="selene"] .composer-reasoning-icon { display: none; }
+  :root[data-skin="selene"] .composer-reasoning-label {
+    font-size: 14px;
+    font-weight: 400;
+  }
+  :root[data-skin="selene"] .composer-workspace-group {
+    min-height: 36px;
+    border: 0;
+  }
+  :root[data-skin="selene"] .composer-workspace-chip {
+    height: 36px;
+    padding: 0 4px;
+  }
+  :root[data-skin="selene"] #btnAttach {
+    position: absolute;
+    left: 8px;
+    top: 8px;
+  }
+  :root[data-skin="selene"] .composer-footer svg { width: 20px; height: 20px; }
+  :root[data-skin="selene"] .attach-tray.has-files {
+    grid-column: 1 / -1;
+    grid-row: 1;
+    padding: 4px 8px 8px;
+  }
+  :root[data-skin="selene"] .composer-box:has(.attach-tray.has-files) :is(#msg, .composer-footer) {
+    grid-row: 2;
+  }
+  :root[data-skin="selene"] .composer-box:has(.attach-tray.has-files) #btnAttach {
+    top: auto;
+    bottom: 8px;
+  }
+  /* Welcome-only placement. Native conversation/keyboard layout takes over
+   * as soon as core hides the empty state. */
+  :root[data-skin="selene"] #mainChat:has(#emptyState:not([style*="display: none"])) {
+    position: relative;
+  }
+  :root[data-skin="selene"] #mainChat:has(#emptyState:not([style*="display: none"])) :is(.messages-shell, .messages) {
+    position: static;
+  }
+  :root[data-skin="selene"] #mainChat:has(#emptyState:not([style*="display: none"])) .empty-state h2 {
+    position: absolute;
+    top: calc(42% - 94.16px);
+    left: 24px;
+    right: 24px;
+    text-align: center;
+  }
+  :root[data-skin="selene"] #mainChat:has(#emptyState:not([style*="display: none"])) .composer-wrap {
+    position: absolute;
+    top: calc(42% - 30.16px);
+    left: 0;
+    right: 0;
+    padding-top: 0;
+  }
+  :root[data-skin="selene"] #mainChat:has(#emptyState:not([style*="display: none"])) .suggestion-grid {
+    position: absolute;
+    top: calc(42% + 45.84px);
+    left: 50%;
+    transform: translateX(-50%);
+    width: calc(100% - 40px);
+  }
+}
+
+@media (max-width: 640px) {
+  :root[data-skin="selene"] :is(.app-titlebar-hamburger, .app-titlebar-new-chat, .app-titlebar-reload) {
+    width: 36px;
+    height: 36px;
+    min-width: 36px;
+    min-height: 36px;
+  }
+  :root[data-skin="selene"] .sidebar {
+    /* Desktop resizing stores an inline width; phones use drawer geometry. */
+    width: 260px !important;
+    max-width: calc(100vw - 48px);
+    transition: transform 200ms cubic-bezier(0, 0, .2, 1);
+  }
+  :root[data-skin="selene"] .session-item {
+    min-height: 36px;
+    padding: 8px 6px 8px 12px;
+  }
+  :root[data-skin="selene"] .composer-wrap {
+    padding: 8px 20px calc(24px + var(--keyboard-bottom-inset, 0px)) !important;
+    padding-left: max(20px, env(safe-area-inset-left, 0px)) !important;
+    padding-right: max(20px, env(safe-area-inset-right, 0px)) !important;
+  }
+  :root[data-skin="selene"] .composer-box {
+    border: 0;
+    border-radius: 28px;
+  }
+  :root[data-skin="selene"] #msg {
+    padding: 11px 14px 6px 15px;
+    min-height: 43px;
+  }
+  :root[data-skin="selene"] .composer-footer {
+    padding: 0 8px 8px !important;
+    min-height: 44px;
+    gap: 4px;
+  }
+  :root[data-skin="selene"] .composer-footer :is(.icon-btn,
+    .composer-profile-chip, .composer-mobile-config-btn,
+    .composer-workspace-files-btn, .composer-workspace-group, #btnSend) {
+    box-sizing: border-box;
+    width: 36px;
+    min-width: 36px;
+    max-width: 36px;
+    height: 36px;
+    min-height: 36px;
+    flex-basis: 36px;
+    padding: 0;
+    border: 0;
+    border-radius: 999px;
+  }
+  :root[data-skin="selene"] .composer-footer svg { width: 20px; height: 20px; }
+  :root[data-skin="selene"] #mainChat:has(#emptyState:not([style*="display: none"])) {
+    position: relative;
+  }
+  :root[data-skin="selene"] #mainChat:has(#emptyState:not([style*="display: none"])) :is(.messages-shell, .messages) {
+    position: static;
+  }
+  :root[data-skin="selene"] #mainChat:has(#emptyState:not([style*="display: none"])) .empty-state h2 {
+    position: absolute;
+    top: calc(32.55dvh - 52px);
+    left: 20px;
+    right: 20px;
+    text-align: center;
+  }
+  :root[data-skin="selene"] #mainChat:has(#emptyState:not([style*="display: none"])) .suggestion-grid {
+    position: absolute;
+    bottom: 119px;
+    left: 20px;
+    right: 20px;
+    width: auto;
+  }
+  /* Keep useful room for an expanded draft or a landscape/keyboard viewport. */
+  :root[data-skin="selene"] #mainChat:has(#msg:not(:placeholder-shown)) .suggestion-grid { display: none; }
+}
+@media (max-width: 640px) and (max-height: 600px) {
+  :root[data-skin="selene"] #mainChat:has(#emptyState:not([style*="display: none"])) .suggestion-grid { display: none; }
+  :root[data-skin="selene"] #mainChat:has(#emptyState:not([style*="display: none"])) .empty-state h2 {
+    top: 15%;
+  }
+}
+/* Model menu timing measured on the reference: 320ms + 30ms delay. */
+:root[data-skin="selene"] .composer-box[data-theme-expanded="true"] {
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+}
+:root[data-skin="selene"] .composer-box[data-theme-expanded="true"] #msg {
+  padding: 15px 18px 16px;
+  min-height: 57px;
+}
+:root[data-skin="selene"] .composer-box[data-theme-expanded="true"] .composer-footer {
+  box-sizing: border-box;
+  width: 100%;
+  max-width: none;
+  min-height: 45px;
+  padding: 0 8px 9px !important;
+  position: relative;
+}
+:root[data-skin="selene"] .composer-box[data-theme-expanded="true"] #btnAttach {
+  position: static;
+}
+:root[data-skin="selene"] #btnAttach svg { visibility: hidden; }
+:root[data-skin="selene"] #btnAttach::before {
+  content: "+";
+  position: absolute;
+  font-size: 26px;
+  line-height: 1;
+  font-weight: 300;
+  color: var(--text);
+}
+:root[data-skin="selene"] #btnSend:not(:disabled) {
+  background: #48a04c;
+  color: #ffffff;
+}
+@media (prefers-reduced-motion: no-preference) {
+  :root[data-skin="selene"] .model-dropdown.open {
+    animation: selene-menu-in 320ms var(--theme-ease) 30ms both;
+  }
+  :root[data-skin="selene"] #msg {
+    transition: min-height 300ms var(--theme-ease);
+  }
+}
+
+/* Optional presentation layer: original controls return home on skin change. */
+:root[data-skin="selene"] .rail { display: none; }
+:root[data-skin="selene"] .sidebar .sidebar-nav {
+  position: static; display: flex; flex-direction: column;
+  width: auto; height: auto; max-height: none; flex-shrink: 0;
+  padding: 8px; gap: 2px; border: 0; overflow: visible;
+}
+:root[data-skin="selene"] .sidebar-nav .nav-tab,
+:root[data-skin="selene"] .sidebar-nav #btnNewChat,
+:root[data-skin="selene"] .theme-sidebar-search,
+:root[data-skin="selene"] .theme-nav-more {
+  display: flex; align-items: center; gap: 10px; width: 100%; min-width: 0;
+  height: 36px; min-height: 36px; flex: 0 0 auto; padding: 8px 10px;
+  border: 0; border-radius: 10px; background: transparent; color: var(--text);
+  font: inherit; font-size: 14px; line-height: 20px; text-align: left; justify-content: flex-start;
+  cursor: pointer; white-space: nowrap; justify-content: flex-start;
+}
+:root[data-skin="selene"] .sidebar-nav :is(.nav-tab, #btnNewChat, .theme-sidebar-search) svg { width: 20px; height: 20px; flex-shrink: 0; }
+:root[data-skin="selene"] .sidebar-nav .nav-tab::before,
+:root[data-skin="selene"] .sidebar-nav .nav-tab::after { display: none; }
+:root[data-skin="selene"] .theme-nav-more::-webkit-details-marker { display: none; }
+:root[data-skin="selene"] .theme-nav-more:hover { background: var(--hover-bg); }
+:root[data-skin="selene"] .sidebar .panel-view { margin-left: 0; min-height: 0; }
+:root[data-skin="selene"] #panelChat > .panel-head { display: none; }
+:root[data-skin="selene"] .sidebar .panel-head { padding-right: 16px; }
+:root[data-skin="selene"] .mobile-sidebar-close { top: 8px; right: 8px; }
+:root[data-skin="selene"] .composer-footer { container-type: normal; }
+:root[data-skin="selene"] .composer-left { overflow: visible; min-width: 0; }
+:root[data-skin="selene"] :is(#composerMobileConfigBtn, .composer-divider) { display: none !important; }
+:root[data-skin="selene"] .composer-footer #composerModelChip {
+  display: inline-flex !important; width: 140px; max-width: 140px; min-width: 0;
+  gap: 4px; padding: 0 8px; font-size: 14px; font-weight: 400;
+  height: 36px; min-height: 36px; border: 0; background: transparent;
+}
+:root[data-skin="selene"] .composer-model-wrap { display: flex !important; min-width: 0; }
+:root[data-skin="selene"] .composer-footer .composer-model-icon { display: none; }
+:root[data-skin="selene"] .composer-footer .composer-model-label {
+  display: block !important; min-width: 0; overflow: hidden; text-overflow: ellipsis;
+}
+:root[data-skin="selene"] .composer-footer .composer-model-chevron { display: inline-flex; }
+:root[data-skin="selene"] #themeComposerPlus {
+  width: 36px; min-width: 36px; height: 36px; min-height: 36px;
+  padding: 0; border: 0; border-radius: 50%; font: inherit; font-size: 26px;
+  color: var(--text); background: transparent; flex-shrink: 0;
+}
+:root[data-skin="selene"] #themeComposerPlus:hover,
+:root[data-skin="selene"] #themeComposerPlus[aria-expanded="true"] { background: var(--hover-bg); }
+:root[data-skin="selene"] .theme-composer-menu {
+  position: absolute; bottom: calc(100% + 8px); left: 0; z-index: 150;
+  width: 280px; max-width: calc(100vw - 40px); max-height: min(420px, 60dvh);
+  overflow-x: hidden; overflow-y: auto; padding: 8px; border-radius: 20px; background: var(--surface);
+  border: 1px solid var(--border); box-shadow: 0 8px 28px #0004;
+  animation: selene-menu-in 320ms cubic-bezier(.23,1,.32,1) both;
+}
+:root[data-skin="selene"].dark .theme-composer-menu { background: #303030; }
+:root[data-skin="selene"] .theme-composer-menu[hidden] { display: none; }
+:root[data-skin="selene"] .theme-composer-menu > :is(button, div) { width: 100%; max-width: none; }
+:root[data-skin="selene"] .theme-composer-menu button {
+  position: static !important; display: flex; align-items: center; gap: 10px;
+  width: 100%; max-width: none; min-width: 0; min-height: 36px; height: auto;
+  padding: 8px 10px; border: 0; border-radius: 10px; background: transparent;
+  color: var(--text); font: inherit; font-size: 14px; line-height: 20px; text-align: left; justify-content: flex-start;
+}
+:root[data-skin="selene"] .theme-composer-menu button:hover { background: var(--hover-bg); }
+:root[data-skin="selene"] .theme-composer-menu button svg { width: 20px; height: 20px; visibility: visible; }
+:root[data-skin="selene"] .theme-composer-menu #btnAttach::before { display: none; }
+:root[data-skin="selene"] .theme-composer-menu :is(.composer-profile-label, .composer-workspace-label,
+  .composer-reasoning-label, .composer-toolsets-label) { display: inline !important; }
+:root[data-skin="selene"] .theme-composer-menu .composer-workspace-group { display: flex; border: 0; }
+:root[data-skin="selene"] .theme-composer-menu .composer-workspace-files-btn { width: 40px; flex: 0 0 40px; }
+:root[data-skin="selene"] .theme-composer-menu .composer-workspace-chip { flex: 1; }
+:root[data-skin="selene"] .msg-role :is(.role-icon, .msg-role-name) { display: none; }
+:root[data-skin="selene"] .msg-role { margin-bottom: 0; gap: 0; }
+:root[data-skin="selene"] .msg-foot { display: flex; gap: 8px; align-items: center; }
+:root[data-skin="selene"] .msg-foot .msg-actions { margin-left: 0; order: -1; }
+:root[data-skin="selene"] .msg-row:focus-within .msg-actions,
+:root[data-skin="selene"] .assistant-turn .msg-actions { opacity: 1; }
+:root[data-skin="selene"] .msg-time { opacity: .45; font-size: 11px; }
+:root[data-skin="selene"] .msg-action-btn { min-width: 28px; min-height: 28px; border-radius: 8px; }
+:root[data-skin="selene"] .tool-call-group { border-left: 0; }
+:root[data-skin="selene"] .tool-call-group-summary { padding: 8px 0; font-size: 14px; }
+:root[data-skin="selene"] .tool-call-group-label { font-weight: 400; }
+@media (min-width: 641px) {
+  :root[data-skin="selene"] .layout:not(.sidebar-collapsed) .sidebar { width: 341px; }
+  :root[data-skin="selene"] .composer-footer { width: 224px; max-width: 224px; }
+  :root[data-skin="selene"] #themeComposerPlus { position: absolute; left: 8px; top: 8px; }
+  :root[data-skin="selene"] .composer-box:has(.attach-tray.has-files) #themeComposerPlus { top: auto; bottom: 8px; }
+}
+:root[data-skin="selene"] .composer-box[data-theme-expanded="true"] #themeComposerPlus { position: static; }
+:root[data-skin="selene"] .composer-box[data-theme-expanded="true"] .composer-model-wrap { margin-left: auto; }
+@media (max-width: 640px) {
+  :root[data-skin="selene"] .sidebar .panel-view { height: auto; flex: 1; }
+  :root[data-skin="selene"] .composer-model-wrap { margin-left: auto; }
+  :root[data-skin="selene"] .composer-footer #composerModelChip { width: 128px; max-width: 128px; }
+}
+:root[data-skin="selene"] .composer-left > .composer-model-wrap { order: 1; }
+:root[data-skin="selene"] .composer-left > #btnMic { order: 2; }
+:root[data-skin="selene"] .composer-left > #btnVoiceMode { order: 3; }
+:root[data-skin="selene"] .composer-footer.cf-burger .composer-left > .composer-model-wrap { display: flex !important; }
+:root[data-skin="selene"] .theme-composer-menu #btnAttach svg { visibility: visible; }
+@media (min-width: 641px) {
+  :root[data-skin="selene"] #composerModelDropdown { left: auto !important; right: 80px; max-height: min(420px, calc(100dvh - 80px)); }
+  :root[data-skin="selene"] #mainChat:has(#emptyState:not([style*="display: none"])) #composerModelDropdown { max-height: min(420px, calc(42dvh - 88px)); }
+}
+:root[data-skin="selene"] .theme-composer-menu .composer-workspace-group {
+  width: 100%; max-width: none; min-width: 0; flex-basis: auto; overflow: visible; min-height: 36px;
+}
+:root[data-skin="selene"] .theme-composer-menu .composer-workspace-chip { display: flex !important; }
+:root[data-skin="selene"] .theme-composer-menu #btnSavedPrompts { display: flex !important; }
+:root[data-skin="selene"] #savedPromptsPopup[style*="display: flex"] {
+  display: flex !important; max-width: calc(100vw - 40px); max-height: min(320px, 45dvh);
+}
+
+:root[data-skin="selene"] :is(#savedPromptsPopup, #composerWsDropdown, #composerReasoningDropdown, #composerToolsetsDropdown) { z-index: 260; }
+/* A visible sidebar leaves too little space for an inline tablet composer. */
+@media (min-width: 641px) and (max-width: 1023px) {
+  :root[data-skin="selene"] .layout:not(.sidebar-collapsed) .composer-box:not([data-theme-expanded="true"]) { display: flex; flex-direction: column; padding: 0; }
+  :root[data-skin="selene"] .layout:not(.sidebar-collapsed) .composer-box:not([data-theme-expanded="true"]) #msg { width: 100%; min-height: 43px; padding: 11px 14px 6px 15px; }
+  :root[data-skin="selene"] .layout:not(.sidebar-collapsed) .composer-box:not([data-theme-expanded="true"]) .composer-footer { width: 100%; max-width: none; min-height: 44px; padding: 0 8px 8px; }
+  :root[data-skin="selene"] .layout:not(.sidebar-collapsed) #themeComposerPlus { position: static; }
+  :root[data-skin="selene"] .layout:not(.sidebar-collapsed) .composer-model-wrap { margin-left: auto; }
+}
+
+/* Header: sidebar controls, real navigation modes and conversation details. */
+:root[data-skin="selene"] .app-titlebar { overflow: visible; position: relative; z-index: 300; padding: 0; }
+:root[data-skin="selene"] .app-titlebar :is(.app-titlebar-spacer,.app-titlebar-icon) { display: none; }
+:root[data-skin="selene"] .theme-header-brand { position: absolute; left: 10px; top: 10px; height: 32px; line-height: 32px; font-size: 16px; font-weight: 400; }
+:root[data-skin="selene"] .theme-header-search,
+:root[data-skin="selene"] #btnHamburger,
+:root[data-skin="selene"] #btnTitlebarNewChat,
+:root[data-skin="selene"] .theme-header-details > summary {
+  display: flex; align-items: center; justify-content: center; width: 36px; height: 36px; min-height: 36px;
+  padding: 0; border: 0; border-radius: 10px; background: transparent; color: var(--text); cursor: pointer;
+}
+:root[data-skin="selene"] .theme-header-search { position: absolute; left: calc(var(--theme-sidebar-width, 341px) - 81px); top: 8px; font-size: 0; }
+:root[data-skin="selene"] #btnHamburger { position: absolute; left: calc(var(--theme-sidebar-width, 341px) - 45px); top: 8px; }
+:root[data-skin="selene"] #btnHamburger svg { visibility: hidden; }
+:root[data-skin="selene"] #btnHamburger::after { content: ''; width: 20px; height: 20px; position: absolute; background: currentColor; mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cg fill='none' stroke='black' stroke-width='1.6'%3E%3Crect x='3' y='5' width='18' height='14' rx='3'/%3E%3Cpath d='M9 5v14'/%3E%3C/g%3E%3C/svg%3E") center/contain no-repeat; }
+:root[data-skin="selene"] #btnTitlebarNewChat { position: absolute; right: 8px; top: 8px; }
+:root[data-skin="selene"] #btnTitlebarNewChat svg { visibility: hidden; }
+:root[data-skin="selene"] #btnTitlebarNewChat::after { content: ''; width: 20px; height: 20px; position: absolute; background: currentColor; mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cg fill='none' stroke='black' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M14 4H6a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8M12 12l8-8m-3 0h3v3'/%3E%3C/g%3E%3C/svg%3E") center/contain no-repeat; }
+:root[data-skin="selene"] :is(.theme-header-search,#btnHamburger,#btnTitlebarNewChat):hover,
+:root[data-skin="selene"] .theme-header-details > summary:hover { background: var(--hover-bg); }
+:root[data-skin="selene"] .theme-header-details { position: absolute; top: 8px; right: 48px; }
+:root[data-skin="selene"] .theme-header-details > summary { font-size: 24px; list-style: none; }
+:root[data-skin="selene"] .theme-header-details > summary::-webkit-details-marker { display: none; }
+:root[data-skin="selene"] .theme-header-detail-body { position: absolute; right: 0; top: 44px; width: 300px; max-width: calc(100vw - 24px); padding: 16px; border: 1px solid var(--border); border-radius: 16px; background: var(--surface); box-shadow: var(--theme-menu-shadow); }
+:root[data-skin="selene"] .theme-header-detail-body .app-titlebar-inner { position: static; transform: none; display: flex; flex-direction: column; align-items: flex-start; gap: 8px; max-width: none; }
+:root[data-skin="selene"] .theme-header-detail-body .app-titlebar-title { max-width: 100%; white-space: normal; font-size: 14px; line-height: 20px; }
+:root[data-skin="selene"] .theme-header-detail-body #btnReload { display: flex; width: 36px; height: 36px; margin-top: 12px; }
+:root[data-skin="selene"][data-theme-sidebar="collapsed"] .theme-header-search { display: none; }
+:root[data-skin="selene"][data-theme-sidebar="collapsed"] #btnHamburger { left: 8px; }
+:root[data-skin="selene"][data-theme-sidebar="collapsed"] .theme-header-brand { left: 52px; }
+@media (max-width: 640px) {
+  :root[data-skin="selene"] :is(.theme-header-brand,.theme-header-search) { display: none; }
+  :root[data-skin="selene"] #btnHamburger { left: 8px; }
+}
+:root[data-skin="selene"] .sidebar-search { display: none; }
+:root[data-skin="selene"][data-theme-search="open"] .sidebar-search { display: block; }
+:root[data-skin="selene"] .theme-session-heading { display: flex; align-items: center; justify-content: space-between; padding: 12px 18px 8px; font-size: 12px; color: var(--muted); }
+:root[data-skin="selene"] .theme-session-heading button { border: 0; border-radius: 8px; background: transparent; color: inherit; font: inherit; padding: 6px 8px; cursor: pointer; }
+:root[data-skin="selene"] .theme-session-heading button:hover { color: var(--text); background: var(--hover-bg); }
+:root[data-skin="selene"] #sessionList :is(.session-source-tabs,.project-bar) { display: none; }
+:root[data-skin="selene"][data-theme-filters="open"] #sessionList .session-source-tabs { display: flex; }
+:root[data-skin="selene"][data-theme-filters="open"] #sessionList .project-bar { display: flex; }
+:root[data-skin="selene"] .app-titlebar-left { display: contents; }
+:root[data-skin="selene"] #titlebarProfileBtn { display: none !important; }
+:root[data-skin="selene"] .theme-header-search::after { content: ''; width: 20px; height: 20px; background: currentColor; mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cg fill='none' stroke='black' stroke-width='1.6' stroke-linecap='round'%3E%3Ccircle cx='10.5' cy='10.5' r='6.5'/%3E%3Cpath d='m16 16 4 4'/%3E%3C/g%3E%3C/svg%3E") center/contain no-repeat; }
+:root[data-skin="selene"] .theme-composer-menu .theme-mobile-details { display: none; }
+@media (max-width: 640px) {
+  :root[data-skin="selene"] .theme-header-details > summary { display: none; }
+  :root[data-skin="selene"] .theme-header-details[open] { position: fixed; top: 52px; right: 8px; }
+  :root[data-skin="selene"] .theme-header-detail-body { top: 0; }
+  :root[data-skin="selene"] .theme-composer-menu .theme-mobile-details { display: flex; }
+}
+/* Native tooltip geometry must not displace the sidebar icon pseudo-element. */
+:root[data-skin="selene"] #btnHamburger::after {
+  top: 8px; left: 8px; right: auto; bottom: auto; opacity: 1; visibility: visible;
+  transform: none; margin: 0; padding: 0; border: 0; border-radius: 0; box-shadow: none; pointer-events: none;
+}
+
+/* Sidebar fixes: native anchors, stable rows and a drawer above the header. */
+:root[data-skin="selene"] .sidebar-nav #btnNewChat { order: -4; }
+:root[data-skin="selene"] .theme-sidebar-search { order: -3; }
+:root[data-skin="selene"] .sidebar-nav > .nav-tab:not(.theme-nav-secondary):not([data-nav-action-mirror]) { order: -2; }
+:root[data-skin="selene"] .theme-nav-more { order: -1; flex-shrink: 0; }
+:root[data-skin="selene"] .sidebar-nav > :is(.theme-nav-secondary,[data-nav-action-mirror]) { padding-left: 30px; }
+:root[data-skin="selene"] .sidebar-nav:not(.theme-nav-expanded) > :is(.theme-nav-secondary,[data-nav-action-mirror]) { display: none; }
+:root[data-skin="selene"] .theme-control-label { overflow: hidden; text-overflow: ellipsis; }
+:root[data-skin="selene"] .theme-session-heading { flex-shrink: 0; }
+:root[data-skin="selene"] .theme-sidebar-scroll {
+  display: flex; flex-direction: column; flex: 1; min-height: 0;
+  overflow-y: auto; overflow-x: hidden; overscroll-behavior-y: contain;
+  touch-action: pan-y; overflow-anchor: none;
+}
+:root[data-skin="selene"] .theme-sidebar-scroll > .panel-view {
+  height: auto; flex: 1 0 auto; overflow: visible;
+}
+:root[data-skin="selene"] .theme-sidebar-scroll .panel-view > :is(.session-list,.cron-list,.skills-list,.kanban-list,.side-menu) {
+  flex: 0 0 auto; overflow: visible; max-height: none; overscroll-behavior: auto;
+}
+@media (max-width: 640px) {
+  :root[data-skin="selene"] .theme-sidebar-scroll { margin-top: 52px; }
+  :root[data-skin="selene"] .sidebar { z-index: 400; }
+  :root[data-skin="selene"] .mobile-overlay { z-index: 350; }
+}
+
+/* Shared native mark and wordmark, including the mobile drawer header. */
+:root[data-skin="selene"] .theme-header-brand,
+:root[data-skin="selene"] .theme-sidebar-brand {
+  align-items: center; gap: 9px; font-size: 17px; font-weight: 600;
+  letter-spacing: -.35px; line-height: 32px;
+}
+:root[data-skin="selene"] .theme-header-brand { display: flex; left: 18px; }
+:root[data-skin="selene"] .theme-brand-mark { display: flex; align-items: center; }
+:root[data-skin="selene"] .theme-brand-mark svg { width: 25px; height: 25px; }
+:root[data-skin="selene"] .theme-sidebar-brand { display: none; }
+:root[data-skin="selene"] .theme-nav-more-icon { width: 20px; flex: 0 0 20px; text-align: center; letter-spacing: 1px; }
+:root[data-skin="selene"] .composer-left > #composerReasoningWrap { order: 2; min-width: 0; flex-shrink: 0; }
+:root[data-skin="selene"] .composer-left > #btnMic { order: 3; }
+:root[data-skin="selene"] .composer-left > #btnVoiceMode { order: 4; }
+:root[data-skin="selene"] .composer-footer #composerReasoningChip {
+  display: flex; align-items: center; gap: 4px; width: auto; min-width: 0; max-width: 88px;
+  height: 36px; min-height: 36px; padding: 0 8px; border: 0; color: var(--muted);
+  font: inherit; font-size: 13px; font-weight: 400;
+}
+:root[data-skin="selene"] .composer-footer .composer-reasoning-label { display: inline-flex !important; overflow: hidden; text-overflow: ellipsis; font: inherit; }
+:root[data-skin="selene"] .composer-footer .composer-reasoning-icon { display: none; }
+:root[data-skin="selene"] .composer-footer .composer-reasoning-chevron { display: inline-flex; }
+:root[data-skin="selene"] .composer-footer.cf-burger .composer-left > #composerReasoningWrap:not([style*="display: none"]) { display: flex !important; }
+@media (min-width: 641px) {
+  :root[data-skin="selene"] .composer-footer { width: 312px; max-width: 312px; }
+}
+@media (max-width: 640px) {
+  :root[data-skin="selene"] .theme-header-brand { display: none; }
+  :root[data-skin="selene"] .theme-sidebar-brand { display: flex; position: absolute; left: 18px; top: 10px; height: 32px; }
+  :root[data-skin="selene"] .composer-left > #composerReasoningWrap:not([style*="display: none"]) { display: flex !important; }
+  :root[data-skin="selene"] .composer-footer #composerModelChip { width: 104px; max-width: 104px; }
+  :root[data-skin="selene"] .composer-footer #composerReasoningChip { max-width: 76px; padding: 0 6px; }
+}
+@media (max-width: 640px) {
+  :root[data-skin="selene"] .composer-footer .composer-left { gap: 4px; }
+}
+@media (max-width: 360px) {
+  :root[data-skin="selene"] .composer-footer #composerModelChip { width: calc(100vw - 256px); max-width: 104px; }
+  :root[data-skin="selene"] .composer-footer #composerReasoningChip { max-width: 60px; }
+}
+
+/* Native title stays live, including when Hermes displays another panel. */
+:root[data-skin="selene"] .theme-header-conversation {
+  position: absolute; left: var(--theme-sidebar-width, 341px); right: 96px; top: 8px;
+  height: 36px; display: flex; align-items: center; justify-content: center;
+  min-width: 0; padding: 0 12px; pointer-events: none;
+}
+:root[data-skin="selene"] .theme-header-conversation .app-titlebar-title {
+  max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+  font-size: 14px; font-weight: 500; line-height: 20px; color: var(--text);
+}
+:root[data-skin="selene"][data-theme-sidebar="collapsed"] .theme-header-conversation { left: 160px; }
+@media (max-width: 640px) {
+  :root[data-skin="selene"] .theme-header-conversation,
+  :root[data-skin="selene"][data-theme-sidebar="collapsed"] .theme-header-conversation { left: 52px; right: 52px; }
+}
+@media (min-width: 641px) {
+  :root[data-skin="selene"] #composerReasoningDropdown { left: auto !important; right: 80px; }
+}
+
+/* Conversation list actions and the native active-profile switcher. */
+:root[data-skin="selene"] .theme-session-actions { display: flex; align-items: center; gap: 2px; }
+:root[data-skin="selene"] .theme-session-heading .theme-list-search { width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; padding: 6px; }
+:root[data-skin="selene"] .theme-list-search::after { content: ''; width: 18px; height: 18px; background: currentColor; mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cg fill='none' stroke='black' stroke-width='1.6' stroke-linecap='round'%3E%3Ccircle cx='10.5' cy='10.5' r='6.5'/%3E%3Cpath d='m16 16 4 4'/%3E%3C/g%3E%3C/svg%3E") center/contain no-repeat; }
+:root[data-skin="selene"] .theme-sidebar-profile { flex-shrink: 0; margin: 8px; padding: 4px 0; border-top: 1px solid var(--border); }
+:root[data-skin="selene"] .theme-sidebar-profile #profileChip { display: flex; align-items: center; gap: 10px; width: 100%; max-width: none; padding: 8px 10px; min-height: 40px; border: 0; border-radius: 10px; font: inherit; font-size: 14px; color: var(--text); background: transparent; }
+:root[data-skin="selene"] .theme-sidebar-profile #profileChipLabel { display: block !important; flex: 1; text-align: left; }
+:root[data-skin="selene"] .theme-sidebar-profile .composer-profile-icon svg { width: 20px; height: 20px; }
+:root[data-skin="selene"] .theme-sidebar-profile .composer-profile-chevron { display: flex !important; }
+:root[data-skin="selene"] #profileDropdown { z-index: 500; }
+/* Consistent icon, caption and trailing indicator columns in every add row. */
+:root[data-skin="selene"] .theme-composer-menu button { display: grid; grid-template-columns: 20px minmax(0,1fr) auto; column-gap: 10px; min-height: 40px; align-items: center; }
+:root[data-skin="selene"] .theme-composer-menu button > :is(svg,.composer-workspace-icon,.composer-toolsets-icon,.theme-menu-icon,.yolo-pill-icon,.provider-quota-chip-dot) { grid-column: 1; width: 20px; height: 20px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+:root[data-skin="selene"] .theme-composer-menu button svg { width: 20px !important; height: 20px !important; }
+:root[data-skin="selene"] .theme-composer-menu button > :is(.theme-control-label,.composer-workspace-label,.composer-toolsets-label) { grid-column: 2; min-width: 0; white-space: normal; text-align: left; overflow: visible; font: inherit; }
+:root[data-skin="selene"] .theme-composer-menu :is(.composer-workspace-chevron,.composer-toolsets-chevron) { grid-column: 3; display: flex; }
+:root[data-skin="selene"] .theme-composer-menu :is(.composer-workspace-chevron,.composer-toolsets-chevron) svg { width: 12px !important; height: 12px !important; }
+:root[data-skin="selene"] .theme-composer-menu .composer-workspace-group { display: contents; }
+:root[data-skin="selene"] .theme-composer-menu .composer-workspace-files-btn { width: 100%; }
+:root[data-skin="selene"] .theme-composer-menu [hidden] { display: none !important; }
+:root[data-skin="selene"] .theme-composer-menu :is(.yolo-pill-label,.provider-quota-chip-label) { display: none; }
+@media (max-width: 640px) {
+  :root[data-skin="selene"] .mobile-overlay.visible { display: block; }
+  /* One shared control row, matching the reference's 36px buttons. */
+  :root[data-skin="selene"] .composer-footer,
+  :root[data-skin="selene"] .composer-box[data-theme-expanded="true"] .composer-footer {
+    position: relative; display: flex; align-items: center; width: 100%; max-width: none;
+    min-height: 44px; padding: 0 8px 8px !important; gap: 8px;
+  }
+  :root[data-skin="selene"] .composer-footer .composer-left {
+    display: flex; align-items: center; flex: 1 1 0; min-width: 0; width: auto;
+    gap: 4px; overflow: visible; flex-wrap: nowrap;
+  }
+  :root[data-skin="selene"] .composer-left > .composer-model-wrap { flex: 1 1 0; min-width: 0; margin-left: 0; }
+  :root[data-skin="selene"] .composer-footer #composerModelChip {
+    width: 100%; min-width: 0; max-width: none; height: 36px; min-height: 36px;
+    padding: 0 8px; justify-content: flex-start;
+  }
+  :root[data-skin="selene"] .composer-footer .composer-model-label {
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    min-width: 0; text-align: left; line-height: 20px;
+  }
+  :root[data-skin="selene"] .composer-left > #composerReasoningWrap { flex: 0 0 36px; width: 36px; }
+  :root[data-skin="selene"] .composer-footer #composerReasoningChip {
+    display: flex; align-items: center; justify-content: center;
+    width: 36px; min-width: 36px; max-width: 36px; height: 36px; min-height: 36px; padding: 0;
+  }
+  :root[data-skin="selene"] .composer-footer :is(.composer-reasoning-label,.composer-reasoning-chevron) { display: none !important; }
+  :root[data-skin="selene"] .composer-footer .composer-reasoning-icon { display: inline-flex; }
+  :root[data-skin="selene"] .composer-footer .composer-reasoning-icon svg { width: 20px; height: 20px; }
+  :root[data-skin="selene"] #themeComposerPlus,
+  :root[data-skin="selene"] .composer-box[data-theme-expanded="true"] #themeComposerPlus,
+  :root[data-skin="selene"] .composer-left > :is(#btnMic,#btnVoiceMode) {
+    position: static; flex: 0 0 36px; width: 36px; min-width: 36px; height: 36px;
+  }
+  :root[data-skin="selene"] .composer-right { position: static; flex: 0 0 36px; }
+}
+
+
+@media (max-width: 640px) {
+  :root[data-skin="selene"][data-theme-drawer="open"] .mobile-overlay { display: block; z-index: 350; }
+}
+:root[data-skin="selene"] .theme-composer-menu .composer-ws-wrap { display: block; }
+:root[data-skin="selene"] .theme-composer-menu .composer-workspace-chip { width: 100%; flex: initial; }
+
+:root[data-skin="selene"] .theme-composer-menu #composerToolsetsWrap:not([hidden]):not([style*="display: none"]) { display: block; }
