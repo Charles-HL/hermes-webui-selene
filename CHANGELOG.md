@@ -1,5 +1,15 @@
 # Changelog
 
+## 1.1.0 — 2026-10-07
+
+- Respect composer controls hidden in native settings.
+- Pin the profile switcher outside the sidebar scroll area.
+- Restore title interaction and replace the details popover with a global Reload icon.
+- Use 44 px mobile composer touch targets and expose native context usage in the add menu.
+- Preserve quota values, project chips, active-tab collapse and collapsed-sidebar rail navigation.
+- Widen the mobile drawer and remove the duplicate desktop New conversation action.
+- Lead installation documentation with Settings → Extensions; describe the gallery entry independently of other products.
+
 ## 1.0.2 — 2026-10-06
 
 - Size desktop composer controls to their visible contents, eliminating unused space before Send when reasoning is hidden or short.

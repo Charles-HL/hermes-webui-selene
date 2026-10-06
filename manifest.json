@@ -3,8 +3,8 @@
     {
       "id": "selene",
       "name": "Selene",
-      "version": "1.0.2",
-      "description": "A ChatGPT-inspired theme for Hermes WebUI with light/dark palettes, responsive desktop/mobile chat controls and reversible sidebar presentation.",
+      "version": "1.1.0",
+      "description": "Minimal light and dark theme with a centered composer, a files and tools menu, and a unified sidebar with a pinned profile switcher.",
       "scripts": [
         "assets/theme.js",
         "assets/layout.js"

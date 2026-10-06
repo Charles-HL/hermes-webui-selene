@@ -98,15 +98,6 @@
         undo.push(() => tab.classList.remove("theme-nav-secondary"));
       }
     }
-    // A navigation row should not inherit the hidden desktop rail's
-    // same-panel collapse shortcut. Leave all real panel switches native.
-    const keepActivePanel = (event) => {
-      const tab = event.target.closest(".nav-tab[data-panel]");
-      if (tab?.classList.contains("active") && !document.querySelector(".layout")?.classList.contains("sidebar-collapsed")) {
-        if (tab.classList.contains("theme-nav-secondary")) { closeExplorer(); more.focus({ preventScroll: true }); }
-        event.preventDefault(); event.stopImmediatePropagation();
-      }
-    };
     const closeAfterNavigation = (event) => {
       const tab = event.target.closest(".theme-nav-secondary,[data-nav-action-mirror]");
       if (!tab) return;
@@ -119,8 +110,6 @@
     };
     nav.addEventListener("click", closeAfterNavigation);
     undo.push(() => nav.removeEventListener("click", closeAfterNavigation));
-    nav.addEventListener("click", keepActivePanel, true);
-    undo.push(() => nav.removeEventListener("click", keepActivePanel, true));
     move(newChat, nav, nav.firstChild);
     label(newChat, newChat.dataset.tooltip || "New conversation");
     let searchToggle;
@@ -174,29 +163,12 @@
         else document.documentElement.style.removeProperty("--theme-sidebar-width");
       });
       undo.push(() => { sidebarObserver.disconnect(); delete document.documentElement.dataset.themeSidebar; delete document.documentElement.dataset.themeDrawer; });
-      const details = document.createElement("details");
-      details.className = "theme-header-details";
-      const trigger = document.createElement("summary");
-      trigger.textContent = "···";
-      trigger.setAttribute("aria-label", text("Conversation details", "Détails de la conversation"));
-      const detailBody = document.createElement("div");
-      detailBody.className = "theme-header-detail-body";
-      detailBody.tabIndex = -1;
-      details.append(trigger, detailBody);
-      header.append(brand, heading, details);
-      undo.push(() => { brand.remove(); heading.remove(); details.remove(); });
-      move(header.querySelector(".app-titlebar-inner"), detailBody);
+      header.append(brand, heading);
+      undo.push(() => { brand.remove(); heading.remove(); });
       move(header.querySelector(".app-titlebar-title"), heading);
-      move(document.getElementById("btnReload"), detailBody);
-      const closeDetails = (event) => {
-        if (event.type === "keydown" && event.key === "Escape" && details.open) {
-          details.open = false;
-          (window.matchMedia("(max-width:640px)").matches ? document.getElementById("themeComposerPlus") : trigger)?.focus();
-        } else if (event.type === "pointerdown" && !details.contains(event.target)) details.open = false;
-      };
-      document.addEventListener("pointerdown", closeDetails);
-      document.addEventListener("keydown", closeDetails);
-      undo.push(() => { document.removeEventListener("pointerdown", closeDetails); document.removeEventListener("keydown", closeDetails); });
+      // Keep the global reload action in the header, not in a conversation menu.
+      move(document.getElementById("btnReload"), header);
+
     }
     const list = document.getElementById("sessionList");
     if (list) {
@@ -262,6 +234,9 @@
       move(node, menu);
       if (node?.tagName === "BUTTON") label(node, node.dataset.tooltip || node.getAttribute("aria-label") || node.title || "Options");
     }
+    // Core owns and updates this context row, including compression actions.
+    // Moving the existing row gives mobile users access through the + menu.
+    move(document.getElementById("composerMobileContextAction"), menu);
     const sidebar = nav.closest(".sidebar");
     const profile = left.querySelector("#profileChipWrap");
     if (profile && sidebar) {
@@ -336,24 +311,6 @@
       plus.setAttribute("aria-expanded", "false");
       if (restoreFocus) plus.focus();
     };
-    const headerDetails = document.querySelector(".theme-header-details");
-    if (headerDetails) {
-      const mobileDetails = document.createElement("button");
-      mobileDetails.type = "button";
-      mobileDetails.className = "theme-mobile-details";
-      const icon = document.createElement("span");
-      icon.className = "theme-menu-icon";
-      icon.setAttribute("aria-hidden", "true");
-      icon.innerHTML = '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><circle cx="5" cy="12" r="1.8"/><circle cx="12" cy="12" r="1.8"/><circle cx="19" cy="12" r="1.8"/></svg>';
-      const caption = document.createElement("span");
-      caption.textContent = text("Conversation details", "Détails de conversation");
-      mobileDetails.append(icon, caption);
-      mobileDetails.addEventListener("click", () => {
-        close(); headerDetails.open = true;
-        headerDetails.querySelector(".theme-header-detail-body")?.focus();
-      });
-      menu.append(mobileDetails);
-    }
     plus.addEventListener("click", () => {
       const opening = menu.hidden;
       menu.hidden = !opening;
@@ -373,9 +330,11 @@
       // One scroll surface below the fixed header; native views stay intact.
       const scroll = document.createElement("div");
       scroll.className = "theme-sidebar-scroll";
+      scroll.tabIndex = 0;
+      scroll.setAttribute("aria-label", text("Sidebar navigation and conversations", "Navigation et conversations"));
       sidebar.insertBefore(scroll, nav);
       undo.push(() => scroll.remove());
-      for (const node of [nav, ...sidebar.querySelectorAll(":scope > .panel-view"), profile]) {
+      for (const node of [nav, ...sidebar.querySelectorAll(":scope > .panel-view")]) {
         if (node) move(node, scroll);
       }
     }
