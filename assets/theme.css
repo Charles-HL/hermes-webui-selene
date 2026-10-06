@@ -141,6 +141,32 @@
   caret-color: var(--text);
 }
 :root[data-skin="selene"] #msg::placeholder { color: var(--muted); }
+/* Listening and asynchronous transcription share a full-width status row. */
+:root[data-skin="selene"] .composer-box > :is(#micStatus, #composerStatus) {
+  grid-column: 1 / -1; grid-row: 2; order: 3;
+  width: 100%; min-width: 0; max-width: none; box-sizing: border-box;
+  padding: 4px 12px; min-height: 28px; gap: 8px;
+  font-size: 12px; line-height: 20px; text-align: left; white-space: normal;
+}
+:root[data-skin="selene"] #composerStatus:not([style*="display: none"]) { display: flex; align-items: center; }
+:root[data-skin="selene"] #composerStatus { grid-row: 3; }
+:root[data-skin="selene"] .composer-box:has(.attach-tray.has-files) > :is(#micStatus, #composerStatus) { grid-row: 3; }
+:root[data-skin="selene"] .composer-box:has(.attach-tray.has-files) > #composerStatus { grid-row: 4; }
+:root[data-skin="selene"] .composer-box[data-theme-dictation="processing"] #composerStatus::before {
+  content: ""; width: 8px; height: 8px; flex: 0 0 8px;
+  border: 1.5px solid var(--border); border-top-color: currentColor; border-radius: 50%;
+}
+:root[data-skin="selene"] .composer-box[data-theme-dictation] #btnMic::after,
+:root[data-skin="selene"] #btnMic[data-theme-tooltip-dismissed]::after { content: none; opacity: 0; transition: none; }
+@media (prefers-reduced-motion: no-preference) {
+  :root[data-skin="selene"] .composer-box[data-theme-dictation="processing"] #composerStatus::before {
+    animation: selene-transcribing 900ms linear infinite;
+  }
+}
+@keyframes selene-transcribing { to { transform: rotate(360deg); } }
+@media (hover: none) {
+  :root[data-skin="selene"] #btnMic::after { content: none; }
+}
 :root[data-skin="selene"] :is(.composer-workspace-group, .composer-workspace-chip, .composer-profile-chip, .composer-model-chip) {
   background: transparent;
   border-color: var(--border-subtle);

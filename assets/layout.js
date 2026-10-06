@@ -269,6 +269,52 @@
       undo.push(() => profile.classList.remove("theme-sidebar-profile"));
       move(profile, sidebar);
     }
+    // Native dictation uses two status nodes. Keep both below the controls,
+    // rather than squeezing asynchronous transcription beside Send.
+    const composerStatus = document.getElementById("composerStatus");
+    const mic = document.getElementById("btnMic");
+    if (composerStatus && mic) {
+      move(composerStatus, box);
+      const originalRole = composerStatus.getAttribute("role");
+      const originalLive = composerStatus.getAttribute("aria-live");
+      composerStatus.setAttribute("role", "status");
+      composerStatus.setAttribute("aria-live", "polite");
+      let translatedStatus;
+      const updateDictation = () => {
+        const current = composerStatus.textContent.trim();
+        const processing = composerStatus.style.display !== "none" &&
+          (current === "Transcribing…" || current === "Transcribing..." || current === translatedStatus);
+        if (processing) {
+          translatedStatus = text("Transcribing…", "Transcription en cours…");
+          if (composerStatus.textContent !== translatedStatus) composerStatus.textContent = translatedStatus;
+        } else translatedStatus = undefined;
+        if (mic.classList.contains("recording")) box.dataset.themeDictation = "recording";
+        else if (processing) box.dataset.themeDictation = "processing";
+        else delete box.dataset.themeDictation;
+      };
+      const dictationObserver = new MutationObserver(updateDictation);
+      dictationObserver.observe(composerStatus, { childList: true, characterData: true, subtree: true, attributes: true, attributeFilter: ["style"] });
+      dictationObserver.observe(mic, { attributes: true, attributeFilter: ["class"] });
+      const dismissTooltip = () => { mic.dataset.themeTooltipDismissed = "true"; };
+      const resetTooltip = () => { delete mic.dataset.themeTooltipDismissed; };
+      mic.addEventListener("click", dismissTooltip);
+      mic.addEventListener("pointerleave", resetTooltip);
+      mic.addEventListener("blur", resetTooltip);
+      updateDictation();
+      undo.push(() => {
+        dictationObserver.disconnect();
+        mic.removeEventListener("click", dismissTooltip);
+        mic.removeEventListener("pointerleave", resetTooltip);
+        mic.removeEventListener("blur", resetTooltip);
+        delete box.dataset.themeDictation;
+        delete mic.dataset.themeTooltipDismissed;
+        if (translatedStatus && composerStatus.textContent === translatedStatus) composerStatus.textContent = "Transcribing…";
+        if (originalRole === null) composerStatus.removeAttribute("role");
+        else composerStatus.setAttribute("role", originalRole);
+        if (originalLive === null) composerStatus.removeAttribute("aria-live");
+        else composerStatus.setAttribute("aria-live", originalLive);
+      });
+    }
     // Separate the two native workspace actions into consistently sized rows.
     const workspaceFiles = document.getElementById("btnWorkspacePanelToggle");
     if (workspaceFiles) label(workspaceFiles, text("Workspace files", "Fichiers de l’espace"), false);
