@@ -36,7 +36,7 @@ The tested build preserves extension skin selection in browser-local preferences
 
 ## Install
 
-Selene is currently distributed from this repository. It is **not yet listed in the community gallery**.
+Selene is currently distributed from this repository. It is **not yet listed in the community gallery**. The [gallery submission](https://github.com/hermes-webui/hermes-webui-extensions/pull/100) is open and awaiting maintainer review.
 
 ### Local installation
 
