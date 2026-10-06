@@ -1036,6 +1036,8 @@
   }
   :root[data-skin="selene"] .theme-composer-menu .composer-mobile-context-copy { min-width: 0; }
   :root[data-skin="selene"] .theme-composer-menu .composer-mobile-config-value { white-space: normal; }
+  :root[data-skin="selene"] .theme-sidebar-profile #profileChip,
+  :root[data-skin="selene"] .theme-composer-menu button { min-height: 44px; }
   /* Keep the complete single row, with 44 px touch targets. */
   :root[data-skin="selene"] .composer-footer { gap: 4px; min-height: 52px; }
   :root[data-skin="selene"] .composer-footer .composer-left { gap: 2px; }
