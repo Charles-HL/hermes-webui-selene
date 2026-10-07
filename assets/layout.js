@@ -171,6 +171,7 @@
 
     }
     const list = document.getElementById("sessionList");
+    const listScrollTop = list?.scrollTop || 0;
     if (list) {
       const heading = document.createElement("div");
       heading.className = "theme-session-heading";
@@ -232,7 +233,10 @@
     for (const selector of extras) {
       const node = left.querySelector(selector);
       move(node, menu);
-      if (node?.tagName === "BUTTON") label(node, node.id === "providerQuotaChip" ? text("Provider quota", "Quota du fournisseur") : node.dataset.tooltip || node.getAttribute("aria-label") || node.title || "Options");
+      if (node?.tagName === "BUTTON") {
+        const quota = node.id === "providerQuotaChip";
+        label(node, quota ? text("Provider quota", "Quota du fournisseur") : node.dataset.tooltip || node.getAttribute("aria-label") || node.title || "Options", !quota);
+      }
     }
     // Core owns and updates this context row, including compression actions.
     // Moving the existing row gives mobile users access through the + menu.
@@ -339,9 +343,24 @@
         if (node) move(node, scroll);
       }
     }
+    // Reparenting can reset the native scroller without a final scroll event.
+    // Let Core recompute its real virtual window after layout/viewport changes;
+    // do not reproduce its row-height calculation in this theme.
+    let listFrame;
+    if (list) {
+      const notifyList = () => list.dispatchEvent(new Event("scroll"));
+      const listResize = new ResizeObserver(notifyList);
+      listResize.observe(list);
+      listFrame = requestAnimationFrame(() => {
+        list.scrollTop = listScrollTop;
+        notifyList();
+      });
+      undo.push(() => { listResize.disconnect(); cancelAnimationFrame(listFrame); });
+    }
     cleanup = () => {
       // Restore moved nodes before removing their temporary containers.
       for (const fn of undo.slice().reverse()) fn();
+      list?.dispatchEvent(new Event("scroll"));
       cleanup = undefined;
     };
     return true;
