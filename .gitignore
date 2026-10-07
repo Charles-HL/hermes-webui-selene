@@ -2,3 +2,17 @@
 ._*
 *.zip
 .artifacts/
+
+# Machine-specific context, deployment details, raw sessions and evidence.
+/.local/
+.env
+.env.*
+!.env.example
+*.har
+*.trace
+*.tar
+*.tar.gz
+*.tgz
+*.pem
+*.key
+__pycache__/

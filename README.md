@@ -122,3 +122,7 @@ User-hidden composer controls stay hidden. Clicking an already active navigation
 The theme is a visual adaptation, not a complete reproduction of ChatGPT or its features. Model and reasoning choices, permissions, approvals, tools, speech services and streaming remain provided by Hermes. Profile/model switching internals and real-device keyboard behavior were not exhaustively tested. See [validation notes](docs/VALIDATION.md).
 
 MIT licensed. Independent project; not affiliated with OpenAI, Nous Research or the Hermes WebUI maintainers. No OpenAI logos, proprietary fonts or application source are bundled. The Hermes mark shown in screenshots is rendered by the installed WebUI, not redistributed as a separate asset.
+
+## Resuming development
+
+For maintainers and coding agents, start with [AGENTS.md](AGENTS.md) and the [knowledge index](docs/wiki/README.md). They describe the current release/PR snapshot, decisions, gallery synchronization and validation/release workflow. Machine-specific deployment notes are kept separately and are not part of the public repository or install package.

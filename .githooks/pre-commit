@@ -1,0 +1,3 @@
+#!/bin/sh
+# Local text/privacy guard; manual screenshot and staged-diff review still required.
+exec python3 scripts/check-public.py --staged
